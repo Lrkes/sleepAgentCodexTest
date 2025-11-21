@@ -33,6 +33,43 @@ from health_insight import (
     write_manual_event,
     write_subjective_event,
     get_events_by_date,
+    FitbitAuth,
+    FitbitClient,
     SYSTEM_PROMPT,
 )
+```
+
+### Pulling Fitbit data
+1) Create a Fitbit application to obtain a **client id** and **client secret**.
+2) Generate a refresh token (one-time OAuth flow in Fitbit). Store secrets as environment variables:
+   ```bash
+   export FITBIT_CLIENT_ID="..."
+   export FITBIT_CLIENT_SECRET="..."
+   export FITBIT_REFRESH_TOKEN="..."
+   # Optional if you already have one
+   export FITBIT_ACCESS_TOKEN="..."
+   ```
+3) Fetch and persist a single day of data:
+   ```python
+   from datetime import date
+   from health_insight import FitbitAuth, FitbitClient
+
+   auth = FitbitAuth.from_env()
+   client = FitbitClient(auth)
+
+   day = date.today().isoformat()
+   bundle = client.fetch_and_store_daily(day)
+   print(bundle)  # activity, sleep, and HRV JSON from Fitbit
+   ```
+
+`FitbitClient.refresh_access_token` accepts an optional callback to save the new
+`access_token` and `refresh_token` whenever a refresh occurs:
+
+```python
+def persist_tokens(token_payload):
+    # token_payload includes access_token, refresh_token, expires_in, etc.
+    # Save them to your secrets store.
+    ...
+
+client.refresh_access_token(on_update=persist_tokens)
 ```
