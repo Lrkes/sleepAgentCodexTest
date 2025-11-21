@@ -11,6 +11,7 @@ from .storage import (
     write_fitbit_data,
     write_manual_event,
 )
+from .auth_flow import run_auth_flow
 from .fitbit_api import FitbitAuth, FitbitClient
 from .summary import summarize_day
 from .similar import find_similar_days
@@ -28,6 +29,7 @@ __all__ = [
     "save_day_json",
     "write_fitbit_data",
     "write_manual_event",
+    "run_auth_flow",
     "FitbitAuth",
     "FitbitClient",
     "summarize_day",
