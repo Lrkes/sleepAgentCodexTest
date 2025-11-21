@@ -41,14 +41,14 @@ from health_insight import (
 
 ### Pulling Fitbit data
 1) Create a Fitbit application to obtain a **client id** and **client secret**.
-2) Generate a refresh token (one-time OAuth flow in Fitbit). Store secrets as environment variables:
+2) Generate a refresh token (one-time OAuth flow) using the built-in helper:
    ```bash
-   export FITBIT_CLIENT_ID="..."
-   export FITBIT_CLIENT_SECRET="..."
-   export FITBIT_REFRESH_TOKEN="..."
-   # Optional if you already have one
-   export FITBIT_ACCESS_TOKEN="..."
+   python -m health_insight.auth_flow --scopes activity heartrate sleep
    ```
+   The script starts a localhost listener, opens the Fitbit consent page, captures the
+   redirect code, exchanges it for tokens, and writes the resulting credentials to `.env`
+   (you can change the target file via `--env-file`). Source the file or export the
+   variables before making API calls.
 3) Fetch and persist a single day of data:
    ```python
    from datetime import date
