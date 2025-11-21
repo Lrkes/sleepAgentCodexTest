@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.data-cache/
+.env
+venv/
+.envrc
+.env.local
+.DS_Store
+.idea/
+.vscode/
+*.sqlite
+
+# Ignore generated JSON data files
+/data/*.json
+/data/daily/*.json
